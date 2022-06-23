@@ -79,6 +79,10 @@ FLAGS:
   -t, --title Takes title as string argument (Doesn't work with -i)
   -i, --id    Takes (IMDb) ID as string argument (Doesn't work with -t)
 
+
+EXAMPLES:
+  $ omdb --api <api_key> -t 'Spider-Man Far from home'
+  $ omdb --api <api_key> -i tt6320628
               `);
   Deno.exit(1);
 }
