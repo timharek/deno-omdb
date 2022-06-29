@@ -1,4 +1,5 @@
-import { parse } from 'https://deno.land/std@0.145.0/flags/mod.ts';
+import { printHelp } from './deps.ts';
+import { CONFIG, FLAGS } from './config.ts';
 
 const options = {
   api: '',
@@ -11,12 +12,6 @@ interface Query {
   id?: string;
   title?: string;
 }
-
-const flags = parse(Deno.args, {
-  boolean: ['help', 'short'],
-  string: ['title', 'id', 'api'],
-  alias: { title: ['t'], short: ['s'], id: ['i'], help: ['h'] },
-});
 
 function slugify(text: string) {
   return text
@@ -65,62 +60,33 @@ async function getMovie(query: Query, format: string) {
   };
 }
 
-if (flags.help) {
-  console.log('deno-omdb 1.0.1');
-  console.log('CLI tool for querying data from OMDb API.');
-  console.log();
-  console.log(
-    '%cAUTHOR',
-    'font-weight: bold',
-    'Tim Hårek Andreassen <tim@harek.no>',
-  );
-  console.log(
-    '%cSOURCE',
-    'font-weight: bold',
-    'https://github.com/timharek/deno-omdb',
-  );
-  console.log();
-  console.log('%cUSAGE', 'font-weight: bold', '\n\tomdb [OPTIONS]');
-  console.log();
-  console.log('%cOPTIONS', 'font-weight: bold');
-  console.log('\t-h, --help     Prints this help message');
-  console.log('\t-s, --short    Give the output in the short-format.');
-  console.log(
-    '\t-t, --title    Takes title as string argument (Does not work with --id)',
-  );
-  console.log(
-    '\t-i, --id       Takes id as string argument (Does not work with --title)',
-  );
-  console.log();
-  console.log('%cEXAMPLES', 'font-weight: bold');
-  console.log('\t$ omdb --api <api_key> -t \'Spider-Man Far from home\'');
-  console.log('\t$ omdb --api <api_key> -i tt6320628');
-
+if (FLAGS.help) {
+  printHelp(CONFIG);
   Deno.exit(1);
 }
 
-if (!flags.api) {
+if (!FLAGS.api) {
   console.error('No API key provided.');
   Deno.exit(1);
 }
 
-if ((flags.title && flags.id) || (flags.id && flags.title)) {
+if ((FLAGS.title && FLAGS.id) || (FLAGS.id && FLAGS.title)) {
   console.error('Cannot use ID in conjuction with title');
   Deno.exit(1);
 }
 
-if (flags.api) {
-  options.api = flags.api;
+if (FLAGS.api) {
+  options.api = FLAGS.api;
 }
 
-if (flags.short) {
+if (FLAGS.short) {
   options.format = 'short';
 }
 
-if (flags.title) {
-  console.log(await getMovie({ title: slugify(flags.title) }, options.format));
+if (FLAGS.title) {
+  console.log(await getMovie({ title: slugify(FLAGS.title) }, options.format));
 }
 
-if (flags.id) {
-  console.log(await getMovie({ id: flags.id }, options.format));
+if (FLAGS.id) {
+  console.log(await getMovie({ id: FLAGS.id }, options.format));
 }
