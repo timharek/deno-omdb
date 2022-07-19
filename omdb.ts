@@ -1,4 +1,11 @@
-import { options, REQUEST_URL } from './deps.ts';
+import { REQUEST_URL } from './deps.ts';
+
+export interface Query {
+  apiKey: string;
+  id?: string;
+  title?: string;
+  format: 'long' | 'short';
+}
 
 async function _fetch(url: URL) {
   return await fetch(url, {
@@ -13,18 +20,18 @@ async function _fetch(url: URL) {
     });
 }
 
-export async function getMovie(query: Query, format: string) {
+export async function getMovie(request: Query) {
   const requestUrl = REQUEST_URL;
-  requestUrl.searchParams.set('apikey', options.api);
+  requestUrl.searchParams.set('apikey', request.apiKey);
 
-  if (query.id) {
-    requestUrl.searchParams.set('i', query.id);
-  } else if (query.title) {
-    requestUrl.searchParams.set('t', query.title);
+  if (request.id) {
+    requestUrl.searchParams.set('i', request.id);
+  } else if (request.title) {
+    requestUrl.searchParams.set('t', slugify(request.title));
   }
 
   const result = await _fetch(requestUrl);
-  if (format == 'long') {
+  if (request.format == 'long') {
     return result;
   }
 
@@ -36,12 +43,7 @@ export async function getMovie(query: Query, format: string) {
   };
 }
 
-export interface Query {
-  id?: string;
-  title?: string;
-}
-
-export function slugify(text: string) {
+function slugify(text: string) {
   return text
     .toString() // Cast to string (optional)
     .normalize('NFKD') // The normalize() using NFKD method returns the Unicode Normalization Form of a given string.

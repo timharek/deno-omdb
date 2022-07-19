@@ -1,34 +1,39 @@
-import { options, printHelp } from './deps.ts';
-import { CONFIG, FLAGS } from './config.ts';
-import { getMovie, slugify } from './omdb.ts';
+import { Command } from './deps.ts';
+import { getMovie, Query } from './omdb.ts';
 
-if (FLAGS.help) {
-  printHelp(CONFIG);
-  Deno.exit(1);
-}
+const { options } = await new Command()
+  .name('omdb')
+  .version('1.1.0')
+  .description('CLI tool for querying data from OMDb API.')
+  .meta("Author", "Tim Hårek Andreassen <tim@harek.no>")
+  .meta("Source", "https://github.com/timharek/deno-omdb")
+  .example(
+    "omdb --api <api_key> -t \'Spider-Man Far from home\'",
+    ""
+  )
+  .example(
+    "omdb -a <api_key> -i tt6320628",
+    ""
+  )
+  .option('-a, --api <key>', 'API-key from OMDb.', {
+    required: true,
+  })
+  .option('-s, --short', 'Returns response in the short-format.')
+  .option(
+    '-i, --id <id>',
+    'Takes id as string argument (Does not work with --title)',
+  )
+  .option(
+    '-t, --title <title>',
+    'Takes title as string argument (Does not work with --id)',
+  )
+  .parse(Deno.args);
 
-if (!FLAGS.api) {
-  console.error('No API key provided.');
-  Deno.exit(1);
-}
+const request: Query = {
+  apiKey: options.api,
+  id: options.id,
+  title: options.title,
+  format: options.short ? 'short' : 'long',
+};
 
-if ((FLAGS.title && FLAGS.id) || (FLAGS.id && FLAGS.title)) {
-  console.error('Cannot use ID in conjuction with title');
-  Deno.exit(1);
-}
-
-if (FLAGS.api) {
-  options.api = FLAGS.api;
-}
-
-if (FLAGS.short) {
-  options.format = 'short';
-}
-
-if (FLAGS.title) {
-  console.log(await getMovie({ title: slugify(FLAGS.title) }, options.format));
-}
-
-if (FLAGS.id) {
-  console.log(await getMovie({ id: FLAGS.id }, options.format));
-}
+console.log(await getMovie(request));
