@@ -25,14 +25,12 @@ export const CONFIG: Options = {
     {
       name: 'title',
       aliases: ['t'],
-      description:
-        'Takes title as string argument (Does not work with --id',
+      description: 'Takes title as string argument (Does not work with --id',
     },
     {
       name: 'id',
       aliases: ['i'],
-      description:
-        'Takes id as string argument (Does not work with --title',
+      description: 'Takes id as string argument (Does not work with --title',
     },
     {
       name: 'bytes',
@@ -43,8 +41,8 @@ export const CONFIG: Options = {
   ],
   examples: [
     'omdb --api <api_key> -t \'Spider-Man Far from home\'',
-    'omdb --api <api_key> -i tt6320628'
-  ]
+    'omdb --api <api_key> -i tt6320628',
+  ],
 };
 
 export const FLAGS = parse(Deno.args, {
