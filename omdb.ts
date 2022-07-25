@@ -4,7 +4,7 @@ export interface Query {
   apiKey: string;
   id?: string;
   title?: string;
-  format: 'long' | 'short';
+  verbose: boolean;
 }
 
 async function _fetch(url: URL) {
@@ -31,7 +31,7 @@ export async function getMovie(request: Query) {
   }
 
   const result = await _fetch(requestUrl);
-  if (request.format == 'long') {
+  if (request.verbose) {
     return result;
   }
 
