@@ -32,7 +32,10 @@ export async function getMovie(request: Query) {
 
   const result = await _fetch(requestUrl);
   if (request.verbose) {
-    return result;
+    return {
+      ...result,
+      imdb_url: `https://www.imdb.com/title/${result.imdbID}`,
+    };
   }
 
   return {
@@ -40,6 +43,7 @@ export async function getMovie(request: Query) {
     year: result.Year,
     genre: result.Genre,
     director: result.Director,
+    imdb_url: `https://www.imdb.com/title/${result.imdbID}`,
   };
 }
 
