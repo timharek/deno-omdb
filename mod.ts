@@ -7,8 +7,11 @@ await new Command()
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
-  .example('Query omdb with title','omdb --api <api_key> -t \'Spider-Man Far from home\'')
-  .example('Query omdb with id','omdb -a <api_key> -i tt6320628')
+  .example(
+    'Query omdb with title',
+    'omdb --api <api_key> -t \'Spider-Man Far from home\'',
+  )
+  .example('Query omdb with id', 'omdb -a <api_key> -i tt6320628')
   .option('-a, --api <key:string>', 'API-key from OMDb.', {
     required: true,
   })
