@@ -1,13 +1,14 @@
+// @deno-types='./mod.d.ts'
 import { REQUEST_URL } from './deps.ts';
 
 export interface Query {
   apiKey: string;
   id?: string;
   title?: string;
-  verbose: boolean;
+  verbose: number;
 }
 
-async function _fetch(url: URL) {
+async function _fetch(url: URL): Promise<OMDb.Response> {
   return await fetch(url, {
     method: 'GET',
     headers: {
@@ -31,20 +32,59 @@ export async function getMovie(request: Query) {
   }
 
   const result = await _fetch(requestUrl);
-  if (request.verbose) {
+  const parsedResult = parseOMDbResponse(result);
+  return getVerbosifiedMessage(parsedResult, request.verbose);
+}
+
+function parseOMDbResponse(result: OMDb.Response) {
+  return {
+    title: result.Title,
+    year: Number(result.Year),
+    released: result.Released,
+    runtime: result.Runtime,
+    genre: result.Genre.split(', '),
+    director: result.Director.split(', '),
+    writer: result.Writer.split(', '),
+    actors: result.Actors.split(', '),
+    plot: result.Plot,
+    language: result.Language,
+    country: result.Country,
+    awards: result.Awards,
+    poster: result.Poster,
+    ratings: result.Ratings.map((entry) => {
+      return {
+        source: entry.Source,
+        value: entry.Value,
+      };
+    }),
+    metascore: result.Metascore,
+    imdbRating: result.imdbRating,
+    imdbVotes: result.imdbVotes,
+    imdbID: result.imdbID,
+    imdbUrl: `https://www.imdb.com/title/${result.imdbID}`,
+    type: result.Type,
+    dvd: result.DVD,
+    boxOffice: result.BoxOffice,
+    production: result.Production,
+    website: result.Website,
+    response: result.Response,
+  } as Result;
+}
+
+function getVerbosifiedMessage(result: Result, verbose: number) {
+  if (verbose > 1) {
+    return result;
+  } else if (verbose === 1) {
     return {
-      ...result,
-      imdb_url: `https://www.imdb.com/title/${result.imdbID}`,
+      title: result.title,
+      year: result.year,
+      genre: result.genre,
+      director: result.director,
+      imdbUrl: result.imdbUrl,
     };
   }
 
-  return {
-    title: result.Title,
-    year: result.Year,
-    genre: result.Genre,
-    director: result.Director,
-    imdb_url: `https://www.imdb.com/title/${result.imdbID}`,
-  };
+  return `${result.title} (${result.year}) has a ${result.imdbRating} rating on IMDb`;
 }
 
 function slugify(text: string) {
