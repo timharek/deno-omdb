@@ -13,12 +13,11 @@ await new Command()
     'omdb --api <api_key> -t \'Spider-Man Far from home\'',
   )
   .example('Query omdb with id', 'omdb -a <api_key> -i tt6320628')
-  .globalOption('-a, --api <key:string>', 'API-key from OMDb.', {
-    required: true,
-  })
+  .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.')
+  .globalOption('-a, --api <key:string>', 'API-key from OMDb.')
   .globalOption('-v, --verbose', 'A more verbose output.', {
     collect: true,
-    value: (value: boolean, previous: number = 0) => (value ? previous + 1 : 0),
+    value: (value: boolean, previous = 0) => (value ? previous + 1 : 0),
   })
   .option(
     '-i, --id <id:string>',
@@ -30,8 +29,13 @@ await new Command()
   )
   .action(
     async (options) => {
+      if (Deno.env.get('OMDB_API') === undefined && !options.api) {
+        throw new Error('Missing API key');
+      }
+
+      const apiKey = Deno.env.get('OMDB_API') ?? options.api;
       const request: Query = {
-        apiKey: options.api,
+        apiKey: apiKey,
         id: options.id,
         title: options.title,
         verbose: options.verbose ?? 0,
