@@ -9,10 +9,10 @@ await new Command()
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
   .example(
-    'Query omdb with title',
-    'omdb --api <api_key> -t \'Spider-Man Far from home\'',
+    'Query with title',
+    'omdb -t \'Spider-Man Far from home\'',
   )
-  .example('Query omdb with id', 'omdb -a <api_key> -i tt6320628')
+  .example('Query with id', 'omdb -i tt6320628')
   .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.')
   .globalOption('-a, --api <key:string>', 'API-key from OMDb.')
   .globalOption('-v, --verbose', 'A more verbose output.', {
