@@ -7,7 +7,7 @@ It's fast and simple to use.
 ## Installation
 
 1. Install [Deno](https://deno.land)
-1. Run `deno install --allow-net -n omdb https://raw.githubusercontent.com/timharek/deno-omdb/HEAD/mod.ts`
+1. Run `deno install --allow-net --allow-env=OMDB_API -n omdb https://raw.githubusercontent.com/timharek/deno-omdb/HEAD/mod.ts`
 1. Done, you can now simply run `omdb` on your machine!
 
 ## Usage
