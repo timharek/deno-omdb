@@ -1,10 +1,10 @@
 // @deno-types='./mod.d.ts'
-import { Command } from './deps.ts';
+import { Command, GithubProvider, UpgradeCommand } from './deps.ts';
 import { getMovie, Query } from './omdb.ts';
 
 await new Command()
   .name('omdb')
-  .version('1.2.0')
+  .version('v1.2.0')
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
@@ -43,5 +43,13 @@ await new Command()
 
       console.log(await getMovie(request));
     },
+  )
+  .command(
+    'upgrade',
+    new UpgradeCommand({
+      main: 'mod.ts',
+      args: ['--allow-net', '--allow-read', '--allow-env'],
+      provider: [new GithubProvider({ repository: 'timharek/deno-omdb' })],
+    }),
   )
   .parse(Deno.args);
