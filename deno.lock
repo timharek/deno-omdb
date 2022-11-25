@@ -96,6 +96,13 @@
     "https://deno.land/x/cliffy@v0.25.4/table/layout.ts": "46bf10ae5430cf4fbb92f23d588230e9c6336edbdb154e5c9581290562b169f4",
     "https://deno.land/x/cliffy@v0.25.4/table/row.ts": "5f519ba7488d2ef76cbbf50527f10f7957bfd668ce5b9169abbc44ec88302645",
     "https://deno.land/x/cliffy@v0.25.4/table/table.ts": "ec204c9d08bb3ff1939c5ac7412a4c9ed7d00925d4fc92aff9bfe07bd269258d",
-    "https://deno.land/x/cliffy@v0.25.4/table/utils.ts": "187bb7dcbcfb16199a5d906113f584740901dfca1007400cba0df7dcd341bc29"
+    "https://deno.land/x/cliffy@v0.25.4/table/utils.ts": "187bb7dcbcfb16199a5d906113f584740901dfca1007400cba0df7dcd341bc29",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/HEAD/deps.ts": "1a148fabe9e20fb96910d1549d3c9fa29f343aead2b3b39d5ca8b0bd573bd56b",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/HEAD/mod.ts": "5d39687c1fadef99b4e81b5ed821a3b9b05a56c20c89556e0198a9788c08f9b8",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/HEAD/omdb.ts": "de00b1c1280d6f537b32b3fddf63f1be5d7c77a44b0452ab657961295f76e6d3",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/v1.2.0/deps.ts": "8c0a3a6eda5243017450ab355104f01099e3f160d643e76d4b44f3e83cc688fb",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/v1.2.0/mod.d.ts": "cd0c79cbd5667b9329c2c6ec369e9686460ca2385ccd7863cbf9724c55993952",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/v1.2.0/mod.ts": "f141c69a4ad2192e2b9281450d6094215fa46e5bf8b2299c715691ccfc4b4554",
+    "https://raw.githubusercontent.com/timharek/deno-omdb/v1.2.0/omdb.ts": "462dd4293c7f15976f23c50e238e85118b9eeba86dd21db202f23f69e7810100"
   }
 }

@@ -37,6 +37,10 @@ export async function getMovie(request: Query) {
 }
 
 function parseOMDbResponse(result: OMDb.Response) {
+  if (result.Response && result.Response === "False") {
+    console.error("Movie or show not found");
+    Deno.exit(1);
+  }
   return {
     title: result.Title,
     year: Number(result.Year),
