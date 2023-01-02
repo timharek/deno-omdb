@@ -1,11 +1,11 @@
-interface Query {
+declare interface Query {
   apiKey: string;
   id?: string;
   title?: string;
   verbose: number;
 }
 
-interface Result {
+declare interface Result {
   title: string;
   year: number;
   released: string;
@@ -34,7 +34,7 @@ interface Result {
   response: string;
 }
 
-interface Rating {
+declare interface Rating {
   source: string;
   value: string;
 }

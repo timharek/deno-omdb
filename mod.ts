@@ -1,6 +1,5 @@
-// @deno-types='./mod.d.ts'
 import { Command, GithubProvider, UpgradeCommand } from './deps.ts';
-import { getMovie, Query } from './omdb.ts';
+import { getMovie } from './omdb.ts';
 
 await new Command()
   .name('omdb')

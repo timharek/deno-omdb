@@ -1,12 +1,4 @@
-// @deno-types='./mod.d.ts'
 import { REQUEST_URL } from './deps.ts';
-
-export interface Query {
-  apiKey: string;
-  id?: string;
-  title?: string;
-  verbose: number;
-}
 
 async function _fetch(url: URL): Promise<OMDb.Response> {
   return await fetch(url, {
@@ -37,8 +29,8 @@ export async function getMovie(request: Query) {
 }
 
 function parseOMDbResponse(result: OMDb.Response) {
-  if (result.Response && result.Response === "False") {
-    console.error("Movie or show not found");
+  if (result.Response && result.Response === 'False') {
+    console.error('Movie or show not found');
     Deno.exit(1);
   }
   return {
