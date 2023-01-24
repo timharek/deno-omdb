@@ -1,11 +1,11 @@
-declare interface Query {
+export declare interface Query {
   apiKey: string;
-  id?: string;
-  title?: string;
+  id: string;
+  title: string;
   verbose: number;
 }
 
-declare interface Result {
+export declare interface Result {
   title: string;
   year: number;
   released: string;
@@ -34,12 +34,12 @@ declare interface Result {
   response: string;
 }
 
-declare interface Rating {
+export declare interface Rating {
   source: string;
   value: string;
 }
 
-declare namespace OMDb {
+export declare namespace OMDb {
   interface Response {
     Title: string;
     Year: string;
