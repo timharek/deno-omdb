@@ -3,7 +3,7 @@ import { getMovie } from './omdb.ts';
 
 await new Command()
   .name('omdb')
-  .version('v1.2.0')
+  .version('v1.3.0')
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
@@ -23,9 +23,16 @@ await new Command()
     '-t, --title <title:string>',
     'Takes title as string argument (Does not work with --id)',
   )
-  .action(async (options) => {
+  .arguments('[titleOrId:string]')
+  .action(async (options, titleOrId: string) => {
     if (Deno.env.get('OMDB_API') === undefined && !options.api) {
       throw new Error('Missing API key');
+    }
+    if (titleOrId && titleOrId.startsWith('tt')) {
+      options.id = titleOrId;
+    }
+    if (titleOrId && !titleOrId.startsWith('tt')) {
+      options.title = titleOrId;
     }
 
     const apiKey = Deno.env.get('OMDB_API') ?? options.api;
