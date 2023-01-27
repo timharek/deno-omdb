@@ -7,16 +7,13 @@ await new Command()
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
-  .example(
-    'Query with title',
-    'omdb -t \'Spider-Man Far from home\'',
-  )
+  .example('Query with title', 'omdb -t \'Spider-Man Far from home\'')
   .example('Query with id', 'omdb -i tt6320628')
   .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.')
   .globalOption('-a, --api <key:string>', 'API-key from OMDb.')
   .globalOption('-v, --verbose', 'A more verbose output.', {
     collect: true,
-    value: (value: boolean, previous = 0) => (value ? previous + 1 : 0),
+    value: (_, verbose = 0) => ++verbose,
   })
   .option(
     '-i, --id <id:string>',
@@ -26,23 +23,21 @@ await new Command()
     '-t, --title <title:string>',
     'Takes title as string argument (Does not work with --id)',
   )
-  .action(
-    async (options) => {
-      if (Deno.env.get('OMDB_API') === undefined && !options.api) {
-        throw new Error('Missing API key');
-      }
+  .action(async (options) => {
+    if (Deno.env.get('OMDB_API') === undefined && !options.api) {
+      throw new Error('Missing API key');
+    }
 
-      const apiKey = Deno.env.get('OMDB_API') ?? options.api;
-      const request: Query = {
-        apiKey: apiKey,
-        id: options.id,
-        title: options.title,
-        verbose: options.verbose ?? 0,
-      };
+    const apiKey = Deno.env.get('OMDB_API') ?? options.api;
+    const request: Partial<Query> = {
+      apiKey: apiKey,
+      id: options.id,
+      title: options.title,
+      verbose: options.verbose ?? 0,
+    };
 
-      console.log(await getMovie(request));
-    },
-  )
+    console.log(await getMovie(request as Query));
+  })
   .command(
     'upgrade',
     new UpgradeCommand({
