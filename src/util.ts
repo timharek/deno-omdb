@@ -19,18 +19,11 @@ export async function getMovie(titleOrId: string, options: any) {
   if (!options.api) {
     throw new Error('Missing API key');
   }
-  if (titleOrId && titleOrId.startsWith('tt')) {
-    options.id = titleOrId;
-  }
-  if (titleOrId && !titleOrId.startsWith('tt')) {
-    options.title = titleOrId;
-  }
 
   const apiKey = options.api;
   const request: Partial<Query> = {
     apiKey: apiKey,
-    id: options.id,
-    title: options.title,
+    titleOrId: titleOrId,
     verbose: options.verbose ?? 0,
   };
 

@@ -5,17 +5,19 @@ const REQUEST_URL = new URL('https://www.omdbapi.com/');
 
 export async function getMovie(request: Query) {
   const requestUrl = REQUEST_URL;
-  requestUrl.searchParams.set('apikey', request.apiKey);
+  const { titleOrId, apiKey, verbose } = request;
+  requestUrl.searchParams.set('apikey', apiKey);
 
-  if (request.id) {
-    requestUrl.searchParams.set('i', request.id);
-  } else if (request.title) {
-    requestUrl.searchParams.set('t', slugify(request.title));
+  if (titleOrId && titleOrId.startsWith('tt')) {
+    requestUrl.searchParams.set('i', titleOrId);
+  }
+  if (titleOrId && !titleOrId.startsWith('tt')) {
+    requestUrl.searchParams.set('t', slugify(titleOrId));
   }
 
   const result = await _fetch(requestUrl);
   const parsedResult = parseOMDbResponse(result);
-  return getVerbosifiedMessage(parsedResult, request.verbose);
+  return getVerbosifiedMessage(parsedResult, verbose);
 }
 
 function parseOMDbResponse(result: OMDb.Response) {

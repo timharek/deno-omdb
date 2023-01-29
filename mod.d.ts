@@ -1,7 +1,6 @@
 declare interface Query {
   apiKey: string;
-  id: string;
-  title: string;
+  titleOrId: string;
   verbose: number;
 }
 

@@ -3,12 +3,12 @@ import { getMovie } from './util.ts';
 
 await new Command()
   .name('omdb')
-  .version('v1.3.1')
+  .version('v1.4.0')
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
-  .example('Query with title', 'omdb -t \'Spider-Man Far from home\'')
-  .example('Query with id', 'omdb -i tt6320628')
+  .example('Query with title', 'omdb \'Spider-Man Far from home\'')
+  .example('Query with id', 'omdb tt6320628')
   .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.', {
     prefix: 'OMDB_',
   })
@@ -17,14 +17,6 @@ await new Command()
     collect: true,
     value: (_, verbose = 0) => ++verbose,
   })
-  .option(
-    '-i, --id <id:string>',
-    'Takes id as string argument (Does not work with --title)',
-  )
-  .option(
-    '-t, --title <title:string>',
-    'Takes title as string argument (Does not work with --id)',
-  )
   .arguments('[titleOrId:string]')
   .action(async (options, titleOrId: string) => {
     console.log(await getMovie(titleOrId, options));
