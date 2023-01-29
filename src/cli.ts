@@ -1,5 +1,5 @@
 import { Command, GithubProvider, UpgradeCommand } from '../deps.ts';
-import { getMovie } from './omdb.ts';
+import { getMovie } from './util.ts';
 
 await new Command()
   .name('omdb')
@@ -25,25 +25,7 @@ await new Command()
   )
   .arguments('[titleOrId:string]')
   .action(async (options, titleOrId: string) => {
-    if (Deno.env.get('OMDB_API') === undefined && !options.api) {
-      throw new Error('Missing API key');
-    }
-    if (titleOrId && titleOrId.startsWith('tt')) {
-      options.id = titleOrId;
-    }
-    if (titleOrId && !titleOrId.startsWith('tt')) {
-      options.title = titleOrId;
-    }
-
-    const apiKey = Deno.env.get('OMDB_API') ?? options.api;
-    const request: Partial<Query> = {
-      apiKey: apiKey,
-      id: options.id,
-      title: options.title,
-      verbose: options.verbose ?? 0,
-    };
-
-    console.log(await getMovie(request as Query));
+    console.log(await getMovie(titleOrId, options));
   })
   .command(
     'upgrade',

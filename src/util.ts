@@ -1,5 +1,7 @@
 // @deno-types="../mod.d.ts"
 
+import { getMovie as getMovieFromOmdb } from './omdb.ts';
+
 export async function _fetch(url: URL): Promise<OMDb.Response> {
   return await fetch(url, {
     method: 'GET',
@@ -11,6 +13,28 @@ export async function _fetch(url: URL): Promise<OMDb.Response> {
     .catch((error) => {
       console.log(error);
     });
+}
+
+export async function getMovie(titleOrId: string, options: any) {
+  if (Deno.env.get('OMDB_API') === undefined && !options.api) {
+    throw new Error('Missing API key');
+  }
+  if (titleOrId && titleOrId.startsWith('tt')) {
+    options.id = titleOrId;
+  }
+  if (titleOrId && !titleOrId.startsWith('tt')) {
+    options.title = titleOrId;
+  }
+
+  const apiKey = Deno.env.get('OMDB_API') ?? options.api;
+  const request: Partial<Query> = {
+    apiKey: apiKey,
+    id: options.id,
+    title: options.title,
+    verbose: options.verbose ?? 0,
+  };
+
+  return await getMovieFromOmdb(request as Query);
 }
 
 export function getVerbosifiedMessage(result: Result, verbose: number) {
