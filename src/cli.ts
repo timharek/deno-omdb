@@ -1,4 +1,4 @@
-import { Command, GithubProvider, UpgradeCommand } from './deps.ts';
+import { Command, GithubProvider, UpgradeCommand } from '../deps.ts';
 import { getMovie } from './omdb.ts';
 
 await new Command()
