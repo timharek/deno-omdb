@@ -16,7 +16,7 @@ export async function _fetch(url: URL): Promise<OMDb.Response> {
 }
 
 export async function getMovie(titleOrId: string, options: any) {
-  if (Deno.env.get('OMDB_API') === undefined && !options.api) {
+  if (!options.api) {
     throw new Error('Missing API key');
   }
   if (titleOrId && titleOrId.startsWith('tt')) {
@@ -26,7 +26,7 @@ export async function getMovie(titleOrId: string, options: any) {
     options.title = titleOrId;
   }
 
-  const apiKey = Deno.env.get('OMDB_API') ?? options.api;
+  const apiKey = options.api;
   const request: Partial<Query> = {
     apiKey: apiKey,
     id: options.id,

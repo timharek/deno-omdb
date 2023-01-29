@@ -3,13 +3,15 @@ import { getMovie } from './util.ts';
 
 await new Command()
   .name('omdb')
-  .version('v1.3.0')
+  .version('v1.3.1')
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
   .example('Query with title', 'omdb -t \'Spider-Man Far from home\'')
   .example('Query with id', 'omdb -i tt6320628')
-  .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.')
+  .globalEnv('OMDB_API=<api_key:string>', 'Your OMDb API key.', {
+    prefix: 'OMDB_',
+  })
   .globalOption('-a, --api <key:string>', 'API-key from OMDb.')
   .globalOption('-v, --verbose', 'A more verbose output.', {
     collect: true,
