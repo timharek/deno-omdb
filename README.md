@@ -7,9 +7,9 @@ TV shows.
 
 ```ts
 // your_script.ts
-import { getMovie } from "https://deno.land/x/omdb/mod.ts";
+import { getMovie } from 'https://deno.land/x/omdb/mod.ts';
 
-const request = { titleOrId: "Spider-Man", apiKey: "xxxx", verbose: 0 };
+const request = { titleOrId: 'Spider-Man', apiKey: 'xxxx', verbose: 0 };
 const result = await getMovie(request);
 ```
 

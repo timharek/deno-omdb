@@ -12,4 +12,3 @@
  */
 
 export { getMovie } from './src/omdb.ts';
-export { Query, Result } from './mod.d.ts';
