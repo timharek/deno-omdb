@@ -15,14 +15,13 @@ export async function _fetch(url: URL): Promise<OMDb.Response> {
     });
 }
 
-export async function getMovie(titleOrId: string, options: any) {
+export async function getMovie(titleOrId: string, options: Query) {
   if (!options.api) {
     throw new Error('Missing API key');
   }
 
-  const apiKey = options.api;
   const request: Partial<Query> = {
-    apiKey: apiKey,
+    api: options.api,
     titleOrId: titleOrId,
     verbose: options.verbose ?? 0,
   };

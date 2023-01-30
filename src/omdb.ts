@@ -5,8 +5,8 @@ const REQUEST_URL = new URL('https://www.omdbapi.com/');
 
 export async function getMovie(request: Query) {
   const requestUrl = REQUEST_URL;
-  const { titleOrId, apiKey, verbose } = request;
-  requestUrl.searchParams.set('apikey', apiKey);
+  const { titleOrId, api, verbose } = request;
+  requestUrl.searchParams.set('apikey', api);
 
   if (titleOrId && titleOrId.startsWith('tt')) {
     requestUrl.searchParams.set('i', titleOrId);
