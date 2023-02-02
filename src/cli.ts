@@ -3,7 +3,7 @@ import { getMovie } from './util.ts';
 
 await new Command()
   .name('omdb')
-  .version('v1.4.2')
+  .version('v1.4.3')
   .description('CLI tool for querying data from OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
