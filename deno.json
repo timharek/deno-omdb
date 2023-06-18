@@ -1,29 +1,26 @@
 {
   "lint": {
-    "files": {
-      "include": [
-        "./"
-      ]
-    },
+    "include": [
+      "./"
+    ],
     "rules": {
       "tags": [
         "recommended"
+      ],
+      "include": [
+        "explicit-function-return-type"
       ]
     }
   },
   "fmt": {
-    "files": {
-      "include": [
-        "./"
-      ]
-    },
-    "options": {
-      "useTabs": false,
-      "lineWidth": 80,
-      "indentWidth": 2,
-      "singleQuote": true,
-      "proseWrap": "preserve"
-    }
+    "include": [
+      "./"
+    ],
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "proseWrap": "preserve"
   },
   "tasks": {
     "run": "deno run --allow-net=www.omdbapi.com --allow-env=OMDB_API src/cli.ts"
