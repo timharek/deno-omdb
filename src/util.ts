@@ -23,3 +23,7 @@ export function slugify(text: string): string {
     .replace(/[^\w\-]+/g, '')
     .replace(/\-\-+/g, '-');
 }
+
+export function textResult(input: OMDBResponse): string {
+  return `${input.Title} (${input.Year}) has a rating of ${input.imdbRating} on IMDb`;
+}

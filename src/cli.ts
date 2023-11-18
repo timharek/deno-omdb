@@ -1,5 +1,6 @@
 import { Command } from '../deps.ts';
 import { getMovie } from './omdb.ts';
+import { textResult } from './util.ts';
 
 await new Command()
   .name('omdb')
@@ -13,12 +14,17 @@ await new Command()
     prefix: 'OMDB_',
   })
   .globalOption('-a, --api <key:string>', 'API-key from OMDb.')
+  .globalOption('--json', 'Display JSON output.')
   .arguments('<titleOrId:string>')
   .action(async function (options, titleOrId: string): Promise<void> {
     if (!options.api) {
       throw new Error('Missing API');
     }
     const result = await getMovie({ titleOrId, api: options.api });
-    console.log(result);
+
+    if (options.json) {
+      console.log(JSON.stringify(result, null, 2));
+    }
+    console.log(textResult(result));
   })
   .parse(Deno.args);
