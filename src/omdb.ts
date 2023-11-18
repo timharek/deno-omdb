@@ -12,12 +12,14 @@ export async function getMovie(
 ): Promise<SuccessResponse> {
   const requestUrl = REQUEST_URL;
   const { titleOrId, api } = request;
+
   requestUrl.searchParams.set('apikey', api);
 
-  if (titleOrId && titleOrId.startsWith('tt')) {
+  const isId = titleOrId.startsWith('tt');
+  if (titleOrId && isId) {
     requestUrl.searchParams.set('i', titleOrId);
   }
-  if (titleOrId && !titleOrId.startsWith('tt')) {
+  if (titleOrId && !isId) {
     requestUrl.searchParams.set('t', slugify(titleOrId));
   }
 
