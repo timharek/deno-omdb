@@ -5,7 +5,7 @@ const Rating = z.object({
   Value: z.string(),
 });
 
-export const OMDBResponse = z.object({
+export const SuccessResponse = z.object({
   Title: z.string(),
   Year: z.string(),
   Rated: z.string(),
@@ -28,10 +28,25 @@ export const OMDBResponse = z.object({
   Type: z.enum(['movie', 'series']),
   DVD: z.string().optional(),
   TotalSeasons: z.string().optional(),
-  BoxOffice: z.string(),
-  Production: z.string(),
-  Website: z.string(),
-  Response: z.string(),
+  BoxOffice: z.string().optional(),
+  Production: z.string().optional(),
+  Website: z.string().optional(),
+  Response: z.enum(['True']),
 });
 
+export const BadResponse = z.object({
+  Response: z.enum(['False']),
+  Error: z.string(),
+});
+
+export const OMDBResponse = z.discriminatedUnion('Response', [
+  SuccessResponse,
+  BadResponse,
+]);
+
 export type OMDBResponse = z.infer<typeof OMDBResponse>;
+export type SuccessResponse = z.infer<typeof SuccessResponse>;
+export type BadResponse = z.infer<typeof BadResponse>;
+
+export const Error = z.object({ message: z.string(), error: z.unknown() });
+export type Error = z.infer<typeof Error>;

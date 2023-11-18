@@ -1,4 +1,4 @@
-import { OMDBResponse } from './schemas.ts';
+import { OMDBResponse, SuccessResponse } from './schemas.ts';
 
 export async function _fetch(url: URL): Promise<OMDBResponse> {
   return await fetch(url, {
@@ -24,6 +24,6 @@ export function slugify(text: string): string {
     .replace(/\-\-+/g, '-');
 }
 
-export function textResult(input: OMDBResponse): string {
+export function textResult(input: SuccessResponse): string {
   return `${input.Title} (${input.Year}) has a rating of ${input.imdbRating} on IMDb`;
 }
