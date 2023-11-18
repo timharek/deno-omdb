@@ -5,7 +5,7 @@
  * ```ts
  * import { getMovie } from 'https://deno.land/x/omdb/mod.ts';
  *
- * const request = { titleOrId: 'Spider-Man', apiKey: 'xxxx', verbose: 0 };
+ * const request = { titleOrId: 'Spider-Man', apiKey: 'xxxx' };
  * const result = await getMovie(request);
  * ```
  * @module

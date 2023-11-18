@@ -11,9 +11,9 @@ TV shows.
 
 ```ts
 // your_script.ts
-import { getMovie } from 'https://deno.land/x/omdb/mod.ts';
+import { getMovie } from "https://deno.land/x/omdb/mod.ts";
 
-const request = { titleOrId: 'Spider-Man', apiKey: 'xxxx', verbose: 0 };
+const request = { titleOrId: "Spider-Man", apiKey: "xxxx" };
 const result = await getMovie(request);
 ```
 
@@ -35,6 +35,8 @@ omdb --api <api_key> 'Spider-Man Far from home'
 omdb --api <api_key> tt6320628
 # Another way to specify the API key
 OMDB_API=<api_key> omdb 'Spider-Man'
+# Using name and getting JSON output
+omdb --api <api_key> --json 'Spider-Man Far from home'
 ```
 
 See `omdb -h` for all available flags and commands.
