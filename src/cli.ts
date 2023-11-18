@@ -1,5 +1,4 @@
 import { Command, GithubProvider, UpgradeCommand } from '../deps.ts';
-import { getMovie } from './util.ts';
 
 await new Command()
   .name('omdb')
