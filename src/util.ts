@@ -9,7 +9,7 @@ export async function _fetch(url: URL): Promise<OMDBResponse> {
   })
     .then((response) => response.json())
     .catch((error) => {
-      console.log(error);
+      throw error;
     });
 }
 
