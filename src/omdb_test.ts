@@ -2,7 +2,7 @@ import {
   assertEquals,
   assertExists,
 } from 'https://deno.land/std@0.222.1/assert/mod.ts';
-import { getTitle } from './omdb.ts';
+import { getTitle, search } from './omdb.ts';
 
 Deno.test('Get movie title by name, Spider-Man (2002) id: tt0145487', async () => {
   const title = await getTitle({ titleOrId: 'Spider-Man' });
@@ -45,4 +45,23 @@ Deno.test('Get TV show title by id, Breaking Bad id: tt0903747', async () => {
   assertEquals(title.Writer.includes('Vince Gilligan'), true, 'writer');
   assertEquals(title.Actors.includes('Bryan Cranston'), true, 'actors');
   assertEquals(title.Director.includes('N/A'), true, 'director');
+});
+
+Deno.test('Get title for bad title', async () => {
+  const result = await getTitle({ titleOrId: 'shouldnotexist' });
+
+  assertExists(!result);
+});
+
+Deno.test('Search for Spider-Man', async () => {
+  const result = await search({ title: 'Spider-Man' });
+
+  assertExists(result);
+  assertEquals(result.Search.length > 0, true, 'array length');
+});
+
+Deno.test('Search for bad title', async () => {
+  const result = await search({ title: 'shouldnotexist' });
+
+  assertExists(!result);
 });

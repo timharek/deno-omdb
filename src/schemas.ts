@@ -12,6 +12,8 @@ const stringWithNumber = z.string(z.number()).transform((value) =>
   Number(value.replaceAll(',', ''))
 )
   .optional().or(z.number());
+const TitleType = z.enum(['movie', 'series', 'episode']);
+
 export const Title = z.object({
   Title: z.string(),
   Year: z.string(),
@@ -34,28 +36,49 @@ export const Title = z.object({
   imdbRating: stringWithNumber,
   imdbVotes: stringWithNumber,
   imdbID: z.string(),
-  Type: z.enum(['movie', 'series', 'episode']),
+  Type: TitleType,
   DVD: z.string().optional(),
   totalSeasons: stringWithNumber,
   BoxOffice: z.string().optional(),
   Production: z.string().optional(),
   Website: z.string().optional(),
-  Response: z.enum(['True']),
+  Response: z.literal('True'),
 });
 
 export const BadResponse = z.object({
-  Response: z.enum(['False']),
+  Response: z.literal('False'),
   Error: z.string(),
 });
 
-export const OMDBResponse = z.discriminatedUnion('Response', [
+export const TitleResponse = z.discriminatedUnion('Response', [
   Title,
   BadResponse,
 ]);
 
-export type OMDBResponse = z.infer<typeof OMDBResponse>;
+const Search = z.object({
+  Title: z.string(),
+  Year: stringWithNumber,
+  imdbID: z.string(),
+  Type: TitleType,
+  Poster: z.string().url(),
+});
+
+export const SearchObject = z.object({
+  Search: z.array(Search),
+  totalResults: stringWithNumber,
+  Response: z.literal('True'),
+});
+
+export const SearchResponse = z.discriminatedUnion('Response', [
+  SearchObject,
+  BadResponse,
+]);
+
+export type TitleResponse = z.infer<typeof TitleResponse>;
 export type Title = z.infer<typeof Title>;
 export type BadResponse = z.infer<typeof BadResponse>;
+export type SearchResponse = z.infer<typeof SearchResponse>;
+export type SearchObject = z.infer<typeof SearchObject>;
 
 export const Error = z.object({ message: z.string(), error: z.unknown() });
 export type Error = z.infer<typeof Error>;

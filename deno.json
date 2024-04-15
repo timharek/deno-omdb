@@ -2,7 +2,8 @@
   "tasks": {
     "run": "deno run --allow-net=www.omdbapi.com --allow-env=OMDB_API,DEBUG --allow-read src/cli.ts",
     "check": "deno lint && deno fmt --check && deno check **/*.ts",
-    "test": "DEBUG=1 deno test --allow-net=www.omdbapi.com --allow-env=OMDB_API,DEBUGG --allow-read"
+    "test": "deno test --allow-net=www.omdbapi.com --allow-env=OMDB_API,DEBUG --allow-read",
+    "test:debug": "DEBUG=1 deno test --allow-net=www.omdbapi.com --allow-env=OMDB_API,DEBUG --allow-read"
   },
   "lint": {
     "include": [

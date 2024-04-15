@@ -1,6 +1,6 @@
-import { OMDBResponse, Title } from './schemas.ts';
+import { Title } from './schemas.ts';
 
-export async function _fetch(url: URL): Promise<OMDBResponse> {
+export async function _fetch(url: URL): Promise<unknown> {
   return await fetch(url, {
     method: 'GET',
     headers: {

@@ -1,15 +1,23 @@
 import 'https://deno.land/std@0.222.1/dotenv/load.ts';
-import { BadResponse, OMDBResponse, Title } from './schemas.ts';
+import {
+  BadResponse,
+  SearchObject,
+  SearchResponse,
+  Title,
+  TitleResponse,
+} from './schemas.ts';
 import { _fetch, slugify } from './util.ts';
 const REQUEST_URL = new URL('https://www.omdbapi.com/');
 
-type TitleProps = {
-  titleOrId: string;
+type CommonProps = {
   type?: 'movies' | 'series' | 'episode';
   year?: number;
   plot?: 'long' | 'short';
   format?: 'json' | 'xml';
 };
+type TitleProps = {
+  titleOrId: string;
+} & CommonProps;
 
 export async function getTitle(
   { titleOrId, type, year, plot, format }: TitleProps,
@@ -36,7 +44,7 @@ export async function getTitle(
 
   const rawResponse = await _fetch(requestUrl);
 
-  const verifiedResult = OMDBResponse.parse(rawResponse);
+  const verifiedResult = TitleResponse.parse(rawResponse);
   const isBadResult = BadResponse.safeParse(verifiedResult);
   if (isBadResult.success) {
     const result = BadResponse.parse(verifiedResult);
@@ -46,5 +54,40 @@ export async function getTitle(
     return null;
   }
   const successResult = Title.parse(verifiedResult);
+  return successResult;
+}
+
+type SearchProps = {
+  title: string;
+} & CommonProps;
+
+export async function search(
+  { title, type, year, plot, format }: SearchProps,
+): Promise<SearchObject | null> {
+  const requestUrl = REQUEST_URL;
+  const apiKey = Deno.env.get('OMDB_API');
+  if (!apiKey) {
+    throw new Error('Missing `OMDB_API` environment variable.');
+  }
+
+  requestUrl.searchParams.set('s', title);
+  requestUrl.searchParams.set('apikey', apiKey);
+  requestUrl.searchParams.set('type', type ?? '');
+  requestUrl.searchParams.set('y', String(year) ?? '');
+  requestUrl.searchParams.set('plot', plot ?? '');
+  requestUrl.searchParams.set('r', format ?? '');
+
+  const rawResponse = await _fetch(requestUrl);
+
+  const verifiedResult = SearchResponse.parse(rawResponse);
+  const isBadResult = BadResponse.safeParse(verifiedResult);
+  if (isBadResult.success) {
+    const result = BadResponse.parse(verifiedResult);
+    if (Deno.env.get('DEBUG')) {
+      console.debug(Deno.inspect(result));
+    }
+    return null;
+  }
+  const successResult = SearchObject.parse(verifiedResult);
   return successResult;
 }
