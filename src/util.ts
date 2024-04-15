@@ -1,4 +1,4 @@
-import { Title } from './schemas.ts';
+import { SearchObject, Title } from './schemas.ts';
 
 export async function _fetch(url: URL): Promise<unknown> {
   return await fetch(url, {
@@ -24,6 +24,15 @@ export function slugify(text: string): string {
     .replace(/\-\-+/g, '-');
 }
 
-export function textResult(input: Title): string {
-  return `${input.Title} (${input.Year}) has a rating of ${input.imdbRating} on IMDb`;
+export function stringifyTitle(title: Title): string {
+  return `${title.Title} (${title.Year}) has a rating of ${title.imdbRating} on IMDb`;
+}
+
+export function stringifySearch(search: SearchObject): string {
+  const rowsResult = search.Search.map((title) =>
+    `\t- ${title.Title} (${title.Year}): ${title.imdbID} (${title.Type})`
+  );
+  return `Totalt results: ${search.totalResults}
+${rowsResult.join('\n')}
+`;
 }
