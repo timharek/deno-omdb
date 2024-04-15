@@ -14,7 +14,7 @@ tasks:
   - test: |
       cd $DIR
       set +x
-      export $OMDB_API=(cat ~/OMDB_API)
+      export OMDB_API=$(cat ~/OMDB_API)
       set -x
       deno task check
       deno task test
