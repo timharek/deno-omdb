@@ -11,4 +11,4 @@
  * @module
  */
 
-export { getMovie } from './src/omdb.ts';
+export { getTitle } from './src/omdb.ts';

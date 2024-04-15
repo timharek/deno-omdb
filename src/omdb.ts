@@ -1,19 +1,30 @@
-import { ZodError } from 'https://deno.land/x/zod@v3.22.4/ZodError.ts';
-import { BadResponse, OMDBResponse, SuccessResponse } from './schemas.ts';
+import 'https://deno.land/std@0.222.1/dotenv/load.ts';
+import { BadResponse, OMDBResponse, Title } from './schemas.ts';
 import { _fetch, slugify } from './util.ts';
 const REQUEST_URL = new URL('https://www.omdbapi.com/');
 
-interface QueryProps {
-  api: string;
+type TitleProps = {
   titleOrId: string;
-}
-export async function getMovie(
-  request: QueryProps,
-): Promise<SuccessResponse> {
-  const requestUrl = REQUEST_URL;
-  const { titleOrId, api } = request;
+  type?: 'movies' | 'series' | 'episode';
+  year?: number;
+  plot?: 'long' | 'short';
+  format?: 'json' | 'xml';
+};
 
-  requestUrl.searchParams.set('apikey', api);
+export async function getTitle(
+  { titleOrId, type, year, plot, format }: TitleProps,
+): Promise<Title | null> {
+  const requestUrl = REQUEST_URL;
+  const apiKey = Deno.env.get('OMDB_API');
+  if (!apiKey) {
+    throw new Error('Missing `OMDB_API` environment variable.');
+  }
+
+  requestUrl.searchParams.set('apikey', apiKey);
+  requestUrl.searchParams.set('type', type ?? '');
+  requestUrl.searchParams.set('y', String(year) ?? '');
+  requestUrl.searchParams.set('plot', plot ?? '');
+  requestUrl.searchParams.set('r', format ?? '');
 
   const isId = titleOrId.startsWith('tt');
   if (titleOrId && isId) {
@@ -23,23 +34,17 @@ export async function getMovie(
     requestUrl.searchParams.set('t', slugify(titleOrId));
   }
 
-  try {
-    const verifiedResult = OMDBResponse.parse(await _fetch(requestUrl));
-    const isBadResult = BadResponse.safeParse(verifiedResult);
-    if (isBadResult.success) {
-      const result = BadResponse.parse(verifiedResult);
-      throw new Error(result.Error);
+  const rawResponse = await _fetch(requestUrl);
+
+  const verifiedResult = OMDBResponse.parse(rawResponse);
+  const isBadResult = BadResponse.safeParse(verifiedResult);
+  if (isBadResult.success) {
+    const result = BadResponse.parse(verifiedResult);
+    if (Deno.env.get('DEBUG')) {
+      console.debug(Deno.inspect(result));
     }
-    const successResult = SuccessResponse.parse(verifiedResult);
-    return successResult;
-  } catch (error) {
-    if (error instanceof ZodError) {
-      throw JSON.stringify(
-        { message: 'ZodError', error: JSON.parse(error.message) },
-        null,
-        2,
-      );
-    }
-    throw error;
+    return null;
   }
+  const successResult = Title.parse(verifiedResult);
+  return successResult;
 }
