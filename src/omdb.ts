@@ -15,6 +15,7 @@ type CommonProps = {
   plot?: 'long' | 'short';
   format?: 'json' | 'xml';
 };
+
 type TitleProps = {
   titleOrId: string;
 } & CommonProps;

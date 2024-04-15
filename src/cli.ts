@@ -4,8 +4,8 @@ import { stringifySearch, stringifyTitle } from './util.ts';
 
 await new Command()
   .name('omdb')
-  .version('v2.0.0')
-  .description('CLI tool for querying data from OMDb API.')
+  .version('v3.0.0')
+  .description('Use OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
   .example('Query with title', "omdb 'Spider-Man Far from home'")
@@ -32,6 +32,7 @@ await new Command()
     console.log(stringifyTitle(result));
   })
   .command('search <query:string>')
+  .description('Search by movie title.')
   .action(async function (options, query: string): Promise<void> {
     const result = await search({ title: query });
 

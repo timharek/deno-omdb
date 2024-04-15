@@ -3,12 +3,11 @@
  *
  * ## Example
  * ```ts
- * import { getMovie } from 'https://deno.land/x/omdb/mod.ts';
+ * import { getTitle } from 'https://deno.land/x/omdb/mod.ts';
  *
- * const request = { titleOrId: 'Spider-Man', apiKey: 'xxxx' };
- * const result = await getMovie(request);
+ * const result = await getTitle({ titleOrId: 'Spider-Man' });
  * ```
  * @module
  */
 
-export { getTitle } from './src/omdb.ts';
+export { getTitle, search } from './src/omdb.ts';
