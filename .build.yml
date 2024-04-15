@@ -3,6 +3,7 @@ packages:
   - deno
 secrets:
   - 0323bc6f-a046-4b96-8496-2bac6e7ee107
+  - 907ce8b2-6e34-47d4-839f-bf097bde15bd
 environment:
   DIR: deno-omdb
 triggers:
@@ -12,7 +13,11 @@ triggers:
 tasks:
   - test: |
       cd $DIR
+      set +x
+      export $OMDB_API=(cat ~/OMDB_API)
+      set -x
       deno task check
+      deno task test
   - check_release: |
       cd $DIR
       if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD)" ]; then \
