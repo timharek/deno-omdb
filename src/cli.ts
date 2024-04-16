@@ -4,7 +4,7 @@ import { stringifySearch, stringifyTitle } from './util.ts';
 
 await new Command()
   .name('omdb')
-  .version('v3.0.0')
+  .version('v3.0.1')
   .description('Use OMDb API.')
   .meta('Author', 'Tim Hårek Andreassen <tim@harek.no>')
   .meta('Source', 'https://github.com/timharek/deno-omdb')
