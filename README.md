@@ -9,11 +9,13 @@ TV shows.
 
 ## Usage
 
+Remember to set `OMDB_API` enviroment variable.
+
 ```ts
 // your_script.ts
-import { getTitle } from 'https://deno.land/x/omdb/mod.ts';
+import { getTitle } from "https://deno.land/x/omdb/mod.ts";
 
-const result = await getTitle({ titleOrId: 'Spider-Man' });
+const result = await getTitle({ titleOrId: "Spider-Man" });
 ```
 
 ## CLI

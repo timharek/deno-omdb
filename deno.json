@@ -27,5 +27,8 @@
     "indentWidth": 2,
     "singleQuote": true,
     "proseWrap": "preserve"
-  }
+  },
+  "exclude": [
+    "**/*.md"
+  ]
 }
