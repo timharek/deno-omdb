@@ -20,6 +20,14 @@ type TitleProps = {
   titleOrId: string;
 } & CommonProps;
 
+/**
+ * Get specific title from IMDb via OMDb's API.
+ * A title could be for a movie, TV show or an episode of a TV show.
+ *
+ * NOTE: You can enable debuggin using `DEBUG` enviroment variable, set it to anything.
+ * @throws If `OMDB_API` environment varialbe is not set.
+ * @returns Title response if title exists (or matches), else it returns null.
+ */
 export async function getTitle(
   { titleOrId, type, year, plot, format }: TitleProps,
 ): Promise<Title | null> {
@@ -62,6 +70,14 @@ type SearchProps = {
   title: string;
 } & CommonProps;
 
+/**
+ * Search for titles from IMDb via OMDb's API.
+ * A title could be for a movie, TV show or an episode of a TV show.
+ *
+ * NOTE: You can enable debuggin using `DEBUG` enviroment variable, set it to anything.
+ * @throws If `OMDB_API` environment varialbe is not set.
+ * @returns Search-response if there are title matches, else it returns null.
+ */
 export async function search(
   { title, type, year, plot, format }: SearchProps,
 ): Promise<SearchObject | null> {
