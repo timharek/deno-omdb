@@ -1,7 +1,4 @@
-import {
-  assertEquals,
-  assertExists,
-} from 'https://deno.land/std@0.222.1/assert/mod.ts';
+import { assertEquals, assertExists } from 'jsr:@std/assert@0.224.0';
 import { getTitle, search } from './omdb.ts';
 
 Deno.test('Get movie title by name, Spider-Man (2002) id: tt0145487', async () => {

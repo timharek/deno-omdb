@@ -1,3 +1,16 @@
+/**
+ * Access OMDB's API via CLI.
+ *
+ * ### Installation
+ *
+ * ```sh
+ * deno install --allow-net=www.omdbapi.com --allow-env=OMDB_API \
+ *   -n omdb jsr:@timharek/omdb/cli
+ * ```
+ *
+ * @module
+ */
+
 import { Command } from '../deps.ts';
 import { getTitle, search } from './omdb.ts';
 import { stringifySearch, stringifyTitle } from './util.ts';

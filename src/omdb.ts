@@ -1,4 +1,4 @@
-import 'https://deno.land/std@0.222.1/dotenv/load.ts';
+import 'jsr:@std/dotenv@0.224.0/load';
 import {
   BadResponse,
   SearchObject,
