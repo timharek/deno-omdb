@@ -6,36 +6,29 @@ secrets:
   - 907ce8b2-6e34-47d4-839f-bf097bde15bd
   - 6a295705-4fb6-451c-990c-9a12b0aa0dc2
 environment:
-  dir: deno-omdb
+  GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
 triggers:
   - action: email
     condition: failure
     to: tim@harek.no
 tasks:
+  - setup: |
+      echo 'cd deno-omdb' >> ~/.buildenv
   - test: |
-      cd $dir
       set +x
       export OMDB_API=$(cat ~/OMDB_API)
       set -x
       deno task check
       deno task test
   - check_release: |
-      cd $dir
       if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD)" ]; then \
         complete-build; \
       fi
+  - mirror: |
+      git push --force --mirror git@github.com:timharek/deno-omdb.git
   - new_release: |
       set +x
       export JSR_API=$(cat ~/jsr_timharek)
-      cd $dir
       deno publish --allow-slow-types --token $JSR_API
       set -x
-  - mirror: |
-      cd $dir
-      git remote add github git@github.com:timharek/deno-omdb.git
-      ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      git push github main
-      if [ "$(git describe --exact-match --tags HEAD)" ]; then \
-        git push --tags github; \
-      fi
 
