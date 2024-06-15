@@ -8,40 +8,52 @@ const Rating = z.object({
 const stringWithArray = z.string(z.array(z.string())).transform((value) =>
   value.split(', ')
 ).or(z.array(z.string()));
-const stringWithNumber = z.string(z.number()).transform((value) =>
-  Number(value.replaceAll(',', ''))
-)
-  .optional().or(z.number());
+const stringWithNumber = z.preprocess((v) => {
+  if (typeof v === 'string') {
+    if (v === 'N/A') return null;
+    const castedValue = Number(v.replaceAll(',', ''));
+
+    if (isNaN(castedValue)) return null;
+    return castedValue;
+  }
+  if (typeof v === 'number') return v;
+  return null;
+}, z.number().nullable());
+const stringNullable = z.preprocess((v) => {
+  if (typeof v === 'string') {
+    if (v === 'N/A') return null;
+    return v;
+  }
+  return null;
+}, z.string().nullable());
 const TitleType = z.enum(['movie', 'series', 'episode']);
 
 export const Title = z.object({
   Title: z.string(),
   Year: z.string(),
   Rated: z.string(),
-  Released: z.string(z.date()).transform((value) => new Date(value)).or(
-    z.date(),
-  ),
-  Runtime: z.string(),
+  Released: z.coerce.date(),
+  Runtime: stringNullable,
   Genre: stringWithArray,
   Director: stringWithArray,
   Writer: stringWithArray,
   Actors: stringWithArray,
-  Plot: z.string(),
+  Plot: stringNullable,
   Language: stringWithArray,
-  Country: z.string(),
-  Awards: z.string(),
-  Poster: z.string(),
+  Country: stringNullable,
+  Awards: stringNullable,
+  Poster: stringNullable,
   Ratings: z.array(Rating),
-  Metascore: z.string(),
+  Metascore: stringNullable,
   imdbRating: stringWithNumber,
   imdbVotes: stringWithNumber,
-  imdbID: z.string(),
+  imdbID: stringNullable,
   Type: TitleType,
-  DVD: z.string().optional(),
-  totalSeasons: stringWithNumber,
-  BoxOffice: z.string().optional(),
-  Production: z.string().optional(),
-  Website: z.string().optional(),
+  DVD: stringNullable,
+  totalSeasons: stringWithNumber.optional(),
+  BoxOffice: stringNullable,
+  Production: stringNullable,
+  Website: stringNullable,
   Response: z.literal('True'),
 });
 

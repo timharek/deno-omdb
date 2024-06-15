@@ -1,6 +1,15 @@
 import { assertEquals, assertExists } from 'jsr:@std/assert@0.224.0';
 import { getTitle, search } from './omdb.ts';
 
+Deno.test('Get movie title by id, Hit Man (2024) id: tt20215968', async () => {
+  const title = await getTitle({ titleOrId: 'tt20215968' });
+
+  assertExists(title);
+  assertEquals(title.Title, 'Hit Man');
+  assertEquals(title.Released.getFullYear(), 2024);
+  assertEquals(typeof title.imdbVotes, 'number');
+});
+
 Deno.test('Get movie title by name, Spider-Man (2002) id: tt0145487', async () => {
   const title = await getTitle({ titleOrId: 'Spider-Man' });
 

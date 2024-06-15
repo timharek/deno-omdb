@@ -1,6 +1,6 @@
 {
   "name": "@timharek/omdb",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "exports": {
     ".": "./mod.ts",
     "./cli": "./src/cli.ts"
@@ -38,6 +38,7 @@
     "proseWrap": "preserve"
   },
   "exclude": [
-    "**/*.md"
+    "**/*.md",
+    "**/*.json"
   ]
 }
